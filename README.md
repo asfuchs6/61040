@@ -80,6 +80,7 @@ Vercel will automatically deploy the latest version of your code whenever a push
 
 ## Adding new concepts to Fritter
 
+
 ### Backend
 
 The data that Fritter stores is divided into modular collections called "resources". The starter code has only two resources, "freets" and "users". The codebase has the following:
