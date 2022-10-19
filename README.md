@@ -172,6 +172,8 @@ within the schema. This tells us that the `content` field must have type `String
 
 The following api routes have already been implemented for you (**Make sure to document all the routes that you have added.**):
 
+### Freets
+
 #### `GET /`
 
 This renders the `index.html` file that will be used to interact with the backend
@@ -240,6 +242,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not the author of the freet
 - `400` if the new freet content is empty or a stream of empty spaces
 - `413` if the new freet content is more than 140 characters long
+
+### User
 
 #### `POST /api/users/session` - Sign in user
 
@@ -314,3 +318,126 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+### Like
+
+#### `GET /api/freets/liked` - Get all the liked freets
+
+**Returns**
+
+- An array of all liked freets sorted in descending order by date modified
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `POST /api/freets/liked` - Add a new freet to liked
+
+**Body**
+
+- `content` _{string}_ - The content of the freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` If the freetId is invalid
+
+#### `DELETE /api/freets/liked/:freetId?` - Delete an existing liked freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid or not in liked collection
+
+### Folder
+
+#### `GET /api/freets/folders` - Get all folders
+
+**Returns**
+
+- An array of all folders sorted in descending order by date modified
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `POST /api/freets/folders` - Add a new folder to folders
+
+**Body**
+
+- `content` _{string}_ - Name of the folder
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if the new folder name is empty or a stream of empty spaces
+
+#### `DELETE /api/freets/folders/:folderId?` - Delete an existing folder
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the folderId is invalid
+
+#### `POST /api/freets/folders/freets` - Add a new freet to a folder
+
+**Body**
+
+- `content` _{string}_ - ID of the folder
+- `content` _{string}_ - ID of Freet being added
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if the new folder name is empty or a stream of empty spaces
+- `404` If the freetId or folderId is invalid
+
+#### `DELETE /api/freets/folders/freets/:freetId?` - Delete a freet from a folder
+
+**Body**
+
+- `content` _{string}_ - ID of the folder
+- `content` _{string}_ - ID of Freet being added
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if the new folder name is empty or a stream of empty spaces
+- `404` If the freetId or folderId is invalid
+
+#### `GET /api/freets/folders/freets` - Get all freets in a folder
+
+**Returns**
+
+- An array of all freet in a folder, sorted in descending order by date modified
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` If the freetId or folderId is invalid
+
+

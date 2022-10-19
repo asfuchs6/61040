@@ -17,7 +17,7 @@ class FreetCollection {
    *
    * @param {string} authorId - The id of the author of the freet
    * @param {string} content - The id of the content of the freet
-   * @return {Promise<HydratedDocument<Freet>>} - The newly created freet
+   * @return {Promise<HydratedDocument<Like>>} - The newly created freet
    */
   static async addOne(authorId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
     const date = new Date();
@@ -35,7 +35,7 @@ class FreetCollection {
    * Find a freet by freetId
    *
    * @param {string} freetId - The id of the freet to find
-   * @return {Promise<HydratedDocument<Freet>> | Promise<null> } - The freet with the given freetId, if any
+   * @return {Promise<HydratedDocument<Like>> | Promise<null> } - The freet with the given freetId, if any
    */
   static async findOne(freetId: Types.ObjectId | string): Promise<HydratedDocument<Freet>> {
     return FreetModel.findOne({_id: freetId}).populate('authorId');
@@ -44,7 +44,7 @@ class FreetCollection {
   /**
    * Get all the freets in the database
    *
-   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   * @return {Promise<HydratedDocument<Like>[]>} - An array of all of the freets
    */
   static async findAll(): Promise<Array<HydratedDocument<Freet>>> {
     // Retrieves freets and sorts them from most to least recent
@@ -55,7 +55,7 @@ class FreetCollection {
    * Get all the freets in by given author
    *
    * @param {string} username - The username of author of the freets
-   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   * @return {Promise<HydratedDocument<Like>[]>} - An array of all of the freets
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Freet>>> {
     const author = await UserCollection.findOneByUsername(username);
@@ -67,7 +67,7 @@ class FreetCollection {
    *
    * @param {string} freetId - The id of the freet to be updated
    * @param {string} content - The new content of the freet
-   * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
+   * @return {Promise<HydratedDocument<Like>>} - The newly updated freet
    */
   static async updateOne(freetId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
     const freet = await FreetModel.findOne({_id: freetId});
