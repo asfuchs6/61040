@@ -440,4 +440,42 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `404` If the freetId or folderId is invalid
 
+### Follow
+
+#### `GET /api/freets/following` - Get all following
+
+**Returns**
+
+- An array of all authors user follows
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `POST /api/freets/following` - Add a new user to following
+
+**Body**
+
+- `content` _{string}_ - Name of author
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` if the authorID is invalid
+
+#### `DELETE /api/freets/following/:authorId?` - Delete a user from following
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the authorID is invalid or not in list of following
+
 
