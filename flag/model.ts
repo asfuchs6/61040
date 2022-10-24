@@ -6,8 +6,8 @@ import {Schema, model} from 'mongoose';
  * DO NOT implement operations here ---> use collection file
  */
 
-// Type definition for like on the backend
-export type Like = {
+// Type definition for flag on the backend
+export type Flag = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   content: string;
   dateModified: Date;
@@ -16,7 +16,7 @@ export type Like = {
 // Mongoose schema definition for interfacing with a MongoDB table
 // Users stored in this table will have these fields, with the
 // type given by the type property, inside MongoDB
-const LikeSchema = new Schema({
+const FlagSchema = new Schema({
   // freetId
   content: {
     type: String,
@@ -29,5 +29,5 @@ const LikeSchema = new Schema({
   }
 });
 
-const LikeModel = model<Like>('Like', LikeSchema);
-export default LikeModel;
+const FlagModel = model<Flag>('Flag', FlagSchema);
+export default FlagModel;

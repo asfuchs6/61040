@@ -2,18 +2,18 @@ import type {Request, Response} from 'express';
 import express, {NextFunction} from 'express';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
-import * as likeValidator from '../like/middleware';
+import * as flagValidator from './middleware';
 import * as util from './util';
-import LikeCollection from "./collection";
+import FlagCollection from "./collection";
 
 const router = express.Router();
 
 /**
- * Get all the liked freets
+ * Get all the flagged freets
  *
- * @name GET /api/liked
+ * @name GET /api/flagged
  *
- * @return {LikeResponse[]} - A list of all the liked freets sorted in descending
+ * @return {FlagResponse[]} - A list of all the flagged freets sorted in descending
  *                      order by date modified
  */
 router.get(
@@ -25,20 +25,20 @@ router.get(
             return;
         }
 
-        const allLikedFreets = await LikeCollection.findAll();
-        const response = allLikedFreets.map(util.constructLikeResponse);
+        const allFlaggedFreets = await FlagCollection.findAll();
+        const response = allFlaggedFreets.map(util.constructFlagResponse);
         res.status(200).json(response);
     },
 );
 
 
 /**
- * Create a new liked freet.
+ * Flag a new freet.
  *
- * @name POST /api/liked
+ * @name POST /api/flagged
  *
  * @param {string} content - The content of the freet
- * @return {LikeResponse} - The created freet
+ * @return {FlagResponse} - The flagged freet
  * @throws {403} - If the user is not logged in
  * @throws {400} - If the freet content is empty or a stream of empty spaces
  * @throws {413} - If the freet content is more than 140 characters long
@@ -48,22 +48,22 @@ router.post(
     [
         userValidator.isUserLoggedIn,
         freetValidator.isFreetExists,
-        likeValidator.isUserAbleToLikeFreet,
+        flagValidator.isUserAbleToFlagFreet,
     ],
     async (req: Request, res: Response) => {
-        const freet = await LikeCollection.addOne(req.params.freetId);
+        const freet = await FlagCollection.addOne(req.params.freetId);
 
         res.status(201).json({
-            message: `You successfully liked freet ${req.params.freetId}.`,
-            freet: util.constructLikeResponse(freet)
+            message: `You successfully flagged freet ${req.params.freetId}.`,
+            freet: util.constructFlagResponse(freet)
         });
     }
 );
 
 /**
- * Delete a freet
+ * Unflag a freet
  *
- * @name DELETE /api/liked/:id
+ * @name DELETE /api/flagged/:id
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in or is not the author of
@@ -74,14 +74,15 @@ router.delete(
     '/:freetId?',
     [
         userValidator.isUserLoggedIn,
-        likeValidator.isUserAbleToUnlikeFreet,
+        freetValidator.isFreetExists,
+        flagValidator.isUserAbleToUnflagFreet,
     ],
     async (req: Request, res: Response) => {
-        await LikeCollection.deleteOne(req.params.freetId);
+        await FlagCollection.deleteOne(req.params.freetId);
         res.status(200).json({
-            message: `You successfully unliked freet ${req.params.freetId}.`
+            message: `You successfully unflagged freet ${req.params.freetId}.`
         });
     }
 );
 
-export {router as likeRouter};
+export {router as flagRouter};

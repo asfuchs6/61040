@@ -5,20 +5,19 @@
  * e.g. for createUser, fields has properites 'username' and 'password'
  */
 
-function viewAllLikedFreets(fields) {
-    fetch('/api/liked')
+function viewAllFlaggedFreets(fields) {
+    fetch('/api/flagged')
         .then(showResponse)
         .catch(showResponse);
 }
 
-function likeFreet(fields) {
-    fetch(`/api/liked/${fields.freetId}`, {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+function flagFreet(fields) {
+    fetch(`/api/flagged/${fields.freetId}`, {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
         .then(showResponse)
         .catch(showResponse);
 }
-
-function unlikeFreet(fields) {
-    fetch(`/api/liked/${fields.freetId}`, {method: 'DELETE'})
+function unflagFreet(fields) {
+    fetch(`/api/flagged/${fields.freetId}`, {method: 'DELETE'})
         .then(showResponse)
         .catch(showResponse);
 }

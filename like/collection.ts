@@ -1,6 +1,7 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Like} from './model';
 import LikeModel from './model';
+import FreetModel, {Freet} from "../freet/model";
 
 /**
  * This file contains a class with functionality to interact with freets that users like.
@@ -18,12 +19,11 @@ class LikeCollection {
   static async addOne(content: string): Promise<HydratedDocument<Like>> {
     const date = new Date();
     const like = new LikeModel({
-      dateCreated: date,
       content,
       dateModified: date
     });
     await like.save(); // Saves freet to MongoDB
-    return like.populate('liked');
+    return like;
   }
   /**
    * Get all the liked freets
@@ -32,16 +32,27 @@ class LikeCollection {
    */
   static async findAll(): Promise<Array<HydratedDocument<Like>>> {
     // Retrieves freets and sorts them from most to least recent
-    return LikeModel.find({}).sort({dateModified: -1}).populate('liked');
+    return LikeModel.find({}).sort({dateModified: -1});
   }
+
   /**
-   * Remove a like from a freet which will remove it from the liked collection
+   * Find a freet by freetId
+   *
+   * @param {string} freetId - The id of the freet to find
+   * @return {Promise<HydratedDocument<Like>> | Promise<null> } - The freet with the given freetId, if any
+   */
+  static async findOne(freetId: string): Promise<HydratedDocument<Like>> {
+    return LikeModel.findOne({content: freetId});
+  }
+
+  /**
+   * Remove a like from a liked freet which will remove it from the liked collection
    *
    * @param {string} freetId - The freetId of freet to delete
    * @return {Promise<Boolean>} - true if the freet has been deleted, false otherwise
    */
-  static async deleteOne(freetId: Types.ObjectId | string): Promise<boolean> {
-    const freet = await LikeModel.deleteOne({_id: freetId});
+  static async deleteOne(freetId: string): Promise<boolean> {
+    const freet = await LikeModel.deleteOne({content: freetId});
     return freet !== null;
   }
 }

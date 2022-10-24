@@ -20,6 +20,7 @@ const isFreetExists = async (req: Request, res: Response, next: NextFunction) =>
   next();
 };
 
+
 /**
  * Checks if the content of the freet in req.body is valid, i.e not a stream of empty
  * spaces and not more than 140 characters
