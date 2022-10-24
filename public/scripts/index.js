@@ -44,7 +44,10 @@ const formsAndHandlers = {
   'unlike-freet': unlikeFreet,
   'view-all-flagged-freets': viewAllFlaggedFreets,
   'flag-freet': flagFreet,
-  'unflag-freet': unflagFreet
+  'unflag-freet': unflagFreet,
+  'view-pinned-freet': viewPinnedFreet,
+  'pin-freet': pinFreet,
+  'unpin-freet': unpinFreet
 };
 
 // Attach handlers to forms
