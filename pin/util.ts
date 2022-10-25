@@ -9,7 +9,7 @@ type PinResponse = {
   authorId: Types.ObjectId;
   dateCreated: Date;
   freetId: string;
-  content: string
+  content: string;
 };
 
 /**
@@ -40,7 +40,7 @@ const constructPinResponse = (pin: HydratedDocument<Pin>): PinResponse => {
     authorId: pinCopy.authorId,
     dateCreated: pinCopy.dateCreated,
     freetId: pinCopy.freetId,
-    content: pinCopy.content,
+    content: pinCopy.content
   };
 };
 

@@ -1,6 +1,7 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Pin} from './model';
 import PinModel from './model';
+import {Freet} from "../freet/model";
 
 /**
  * This file contains a class with functionality to interact with freets that users pin.
@@ -14,7 +15,7 @@ class PinCollection {
    * @param {string} content - The id of the content of the freet
    * @return {Promise<HydratedDocument<Pin>>} - Success message
    */
-  static async addOne(freet: any): Promise<HydratedDocument<Pin>> {
+  static async addOne(freet: Freet): Promise<HydratedDocument<Pin>> {
 
     const {authorId, _id, content} = freet;
     const date = new Date();

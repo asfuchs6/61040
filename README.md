@@ -319,7 +319,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-### Like
+### Like 
 
 #### `GET /api/liked` - Get all the liked freets
 
@@ -331,11 +331,11 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-#### `POST /api/liked` - Add a new freet to liked
+#### `POST /api/liked/:freetId?` - Add a new freet to liked
 
 **Body**
 
-- `content` _{string}_ - The content of the freet
+- `content` _{string}_ - The freet ID
 
 **Returns**
 
@@ -343,8 +343,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Throws**
 
-- `403` if the user is not logged in
-- `404` If the freetId is invalid
+- `403` If the user is not logged in
+- `404` If the freet does not exist or if the freet is already liked
 
 #### `DELETE /api/liked/:freetId?` - Delete an existing liked freet
 
@@ -355,25 +355,25 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `404` if the freetId is invalid or not in liked collection
+- `404` if the freet does not exist or not in liked collection
 
-### Folder
+### Flagged
 
-#### `GET /api/folders` - Get all folders
+#### `GET /api/flagged` - Get all flagged freets
 
 **Returns**
 
-- An array of all folders sorted in descending order by date modified
+- All flagged freets
 
 **Throws**
 
 - `403` if the user is not logged in
 
-#### `POST /api/folders` - Add a new folder to folders
+#### `POST /api/flagged/:freetId?` - Add a new freet to flagged collection
 
 **Body**
 
-- `content` _{string}_ - Name of the folder
+- `content` _{string}_ - Freet id
 
 **Returns**
 
@@ -382,9 +382,9 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `400` if the new folder name is empty or a stream of empty spaces
+- `404` if the freet does not exist or if the user already flagged this freet
 
-#### `DELETE /api/folders/:folderId?` - Delete an existing folder
+#### `DELETE /api/flagged/:freetId?` - Delete freet from the flagged collection
 
 **Returns**
 
@@ -393,14 +393,25 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `404` if the folderId is invalid
+- `404` if the freet does not exist or if the freet isn't flagged (therefore can't unflag it)
 
-#### `POST /api/folders/freets` - Add a new freet to a folder
+### Pinned
+
+#### `GET /api/pinned` - Get the pinned freet
+
+**Returns**
+
+- The pinned freet if there is one, otherwise a message that says null to show there is no pinned freet
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `POST /api/pinned/:freetId?` - Pin a new freet
 
 **Body**
 
-- `content` _{string}_ - ID of the folder
-- `content` _{string}_ - ID of Freet being added
+- `freet` _{Freet}_ - The freet to pin
 
 **Returns**
 
@@ -409,15 +420,9 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `400` if the new folder name is empty or a stream of empty spaces
-- `404` If the freetId or folderId is invalid
+- `404` if the freet does not exist
 
-#### `DELETE /api/folders/freets/:freetId?` - Delete a freet from a folder
-
-**Body**
-
-- `content` _{string}_ - ID of the folder
-- `content` _{string}_ - ID of Freet being added
+#### `DELETE /api/pinned/:freetId?` - Unpin the pinned freet
 
 **Returns**
 
@@ -426,56 +431,6 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `400` if the new folder name is empty or a stream of empty spaces
-- `404` If the freetId or folderId is invalid
-
-#### `GET /api/folders/freets` - Get all freets in a folder
-
-**Returns**
-
-- An array of all freet in a folder, sorted in descending order by date modified
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` If the freetId or folderId is invalid
-
-### Follow
-
-#### `GET /api/following` - Get all following
-
-**Returns**
-
-- An array of all authors user follows
-
-**Throws**
-
-- `403` if the user is not logged in
-
-#### `POST /api/following` - Add a new user to following
-
-**Body**
-
-- `content` _{string}_ - Name of author
-
-**Returns**
-
-- A success message
-
-**Throws**
-
-- `403` if the user is not logged in
-- `400` if the authorID is invalid
-
-#### `DELETE /api/following/:authorId?` - Delete a user from following
-
-**Returns**
-
-- A success message
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` if the authorID is invalid or not in list of following
+- `404` if there is no current pinned freet to unpin
 
 
